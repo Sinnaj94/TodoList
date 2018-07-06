@@ -6,7 +6,7 @@
     <h1>Tasks:</h1>
         <ul>
             {% for task in tasks %}
-            <li><span>{{ task }}</span><br><button href="#" class="btn btn-primary">Entfernen</button><br><input type="checkbox"></li>
+            <li><span>{{ task }}</span><br><button href="#" class="btn btn-primary">Entfernen</button><br><label>Abgeschlossen: <input type="checkbox"></label></li>
             {% endfor %}
         </ul>
     </div>

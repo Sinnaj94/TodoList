@@ -28,16 +28,18 @@ def remove_task(task_id):
     conn.commit()
 
 
+def add_category(name):
+    conn.execute("INSERT INTO category (category_name) VALUES(?)", [name])
+    conn.commit()
+
+
 def remove_category(category_id):
     # TODO: Also remove ID in Task
     conn.execute("DELETE FROM category WHERE category_id=?", [category_id])
     conn.commit()
 
 
-def add_category(name):
-    conn.execute("INSERT INTO category (category_name) VALUES(?)", [name])
-    conn.commit()
-
+# TODO: David - Category Update, Oguzhan - Task Update
 
 init()
 

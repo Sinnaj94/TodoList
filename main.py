@@ -4,6 +4,7 @@ from flask import render_template
 import data
 # TODO: Implement getter and setter, connect with data.py
 app = Flask(__name__)
+# TODO: Echte variablen
 
 
 @app.route('/')
@@ -20,7 +21,8 @@ def categories():
 # TODO: David: GET und POST implementieren (mit Nutzung von data.py)
 @app.route('/tasks', methods=['GET', 'POST'])
 def tasks():
-    return 'TODO'
+    t = data.get_tasks()
+    return render_template('tasks.html', tasks=t)
 
 
 # TODO: Jannis: GET, DELETE und PUT implementieren
@@ -33,7 +35,6 @@ def task(id):
 @app.route('/categories/<id>', methods=['GET', 'DELETE', 'PUT'])
 def category(id):
     return 'TODO'
-
 
 
 if __name__ == '__main__':

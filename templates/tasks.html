@@ -1,13 +1,26 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='logic.js') }}"></script>
 </head>
 <body>
     <div class="container">
-    <h1>Tasks:</h1>
-        <ul>
+        <ul class="tasks">
             {% for task in tasks %}
-            <li><span>{{ task }}</span><br><button href="#" class="btn btn-primary">Entfernen</button><br><label>Abgeschlossen: <input type="checkbox"></label></li>
+            <li class="task{% if task['done'] == 1 %} done{% endif %}">
+                <label class="name"><input type="checkbox"> {{ task['description'] }}</label>
+                <span class="duedate">{{ task['due_date'] }}</span>
+                <button class="btn btn-warning important{% if task['important'] %} active{% endif %}" onclick="toggleImportant(this)"><i class="fa fa-exclamation"></i></button>
+                <button class="btn btn-danger delete"><i class="fa fa-trash"></i></button>
+            </li>
             {% endfor %}
         </ul>
+        <!--form target="/tasks" method="post">
+            <input type="text" placeholder="Beschreibung"><br>
+            <input type="date"><br>
+            <button class="btn btn-success" type="submit"><i class="fa fa-plus"></i></button>
+        </form-->
     </div>
 </body>

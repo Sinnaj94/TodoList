@@ -1,0 +1,20 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='logic.js') }}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Categories</h1>
+    {% if categories|length == 0 %}
+    <div class="no-tasks">Es gibt im Moment keine Kategorien!</div>
+
+    <h1>Kategories erstellen</h1>
+    <form class="task-form">
+        <label>Kategorie: <input type="text" name="cat_input"></label> <button type="button" class="btn btn-warning important"><i class="fa fa-exclamation"></i><input type="checkbox" name="important" style="display:none"></button>
+        <button type="submit" class="btn btn-primary btn-submit">Erstellen</button>
+    </form>
+</div>
+</body>

@@ -15,7 +15,13 @@ def hello_world():
 # TODO: Oguzhan: GET und POST implementieren (mit Nutzung von data.py)
 @app.route('/categories', methods=['GET', 'POST'])
 def categories():
-    return 'TODO'
+    if request.method == 'POST':
+        category_name = request.form['cat_input'] #form input name
+        t = data.add_category(category_name)
+        #TODO was hier zurückgeben?
+    else:
+        t = data.get_category()
+        return render_template('categories.html', categories=t)
 
 
 # TODO: David: GET und POST implementieren (mit Nutzung von data.py)

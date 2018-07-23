@@ -37,10 +37,15 @@ def remove_task(task_id):
     cur = conn.execute("DELETE FROM task WHERE task_id=?", [task_id])
     conn.commit()
 
+def get_category():
+    cur = conn.execute("SELECT * FROM category")
+    rv = cur.fetchall()
+    cur.close()
+    return rv
 
 def add_category(name):
     conn.execute("INSERT INTO category (category_name) VALUES(?)", [name])
-
+    conn.commit()
 
 def remove_category(category_id):
     # TODO: Also remove ID in Task

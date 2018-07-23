@@ -16,9 +16,9 @@ def hello_world():
 @app.route('/categories', methods=['GET', 'POST'])
 def categories():
     if request.method == 'POST':
-        category_name = request.form['cat_input'] #form input name
+        category_name = request.form['cat_input']
         t = data.add_category(category_name)
-        #TODO was hier zurückgeben?
+        return jsonify(categories=t[0], method=request.method)
     else:
         t = data.get_category()
         return render_template('categories.html', categories=t)

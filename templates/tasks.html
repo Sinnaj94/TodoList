@@ -7,6 +7,10 @@
 </head>
 <body>
     <div class="container">
+        <h1>Todo-Liste</h1>
+        {% if tasks|length == 0 %}
+        <div class="no-tasks">Es gibt im Moment keine Aufgaben!</div>
+        {% else %}
         <ul class="tasks">
             {% for task in tasks %}
             <li class="task{% if task['done'] == 1 %} done{% endif %}" data-id="{{ task['task_id'] }}">
@@ -17,5 +21,11 @@
             </li>
             {% endfor %}
         </ul>
+        {% endif %}
+        <h1>Todo erstellen</h1>
+        <form class="task-form">
+            <label>Beschreibung: <input type="text"></label> <button type="button" class="btn btn-warning important"><i class="fa fa-exclamation"></i><input type="checkbox" name="important" style="display:none"></button>
+            <button type="submit" class="btn btn-primary btn-submit">Erstellen</button>
+        </form>
     </div>
 </body>

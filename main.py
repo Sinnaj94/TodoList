@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, g
+from flask import request, g, jsonify, abort
 from flask import render_template
 import data
 # TODO: Implement getter and setter, connect with data.py
@@ -26,15 +26,29 @@ def tasks():
 
 
 # TODO: Jannis: GET, DELETE und PUT implementieren
-@app.route('/tasks/<id>')
+@app.route('/tasks/<id>', methods=['GET', 'PUT', 'DELETE'])
 def task(id):
-    return 'TODO'
+    t = data.get_task_by_id(id)
+    if(len(t) == 0):
+        return abort(404)
+    elif request.method == 'DELETE':
+        data.remove_task(id)
+    elif request.method == 'PUT':
+        return "TODO"
+    return jsonify(task=t[0], method=request.method)
+
+
 
 
 # TODO: Jannis: GET, DELETE und PUT implementieren
 @app.route('/categories/<id>', methods=['GET', 'DELETE', 'PUT'])
 def category(id):
     return 'TODO'
+
+
+@app.errorhandler(404)
+def resource_not_found(e):
+    return jsonify(error=404, text="The requested resource was not found."), 404
 
 
 if __name__ == '__main__':

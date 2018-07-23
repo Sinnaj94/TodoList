@@ -12,6 +12,7 @@ def dict_factory(cursor, row):
 
 conn.row_factory = dict_factory
 
+
 def init():
     # Create Table for Tasks
     # TODO: Date has to be checked still...
@@ -27,15 +28,13 @@ def init():
                  "category_name TEXT NOT NULL)")
 
 
-
-
 def add_task(description, due_date, important=0):
     conn.execute("INSERT INTO task (description, due_date, important) VALUES (?, ?, ?)", [description, due_date, important])
     conn.commit()
 
 
 def remove_task(task_id):
-    conn.execute("DELETE FROM task WHERE task_id=?", [task_id])
+    cur = conn.execute("DELETE FROM task WHERE task_id=?", [task_id])
     conn.commit()
 
 
@@ -55,8 +54,14 @@ def get_tasks():
     cur.close()
     return rv
 
+
+def get_task_by_id(id):
+    cur = conn.execute("SELECT * FROM task WHERE task_id == ?", id)
+    rv = cur.fetchall()
+    cur.close()
+    return rv
+
 # TODO: David - Category Update, Oguzhan - Task Update
 
 init()
 
-#add_task("Fegen", "02.02.2018")

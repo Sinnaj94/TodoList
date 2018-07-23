@@ -61,7 +61,18 @@ def get_task_by_id(id):
     cur.close()
     return rv
 
-# TODO: David - Category Update, Oguzhan - Task Update
+
+# TODO: geht das einfacher?
+def update_task(id, data):
+    if 'important' in data:
+        conn.execute("UPDATE task SET important = ? WHERE task_id == ?", [data['important'], id])
+    if 'done' in data:
+        conn.execute("UPDATE task SET done = ? WHERE task_id == ?", [data['done'], id])
+    conn.commit()
+    return get_task_by_id(id)
+
+
+# TODO: David - Category Update
 
 init()
 

@@ -10,9 +10,9 @@
         <ul class="tasks">
             {% for task in tasks %}
             <li class="task{% if task['done'] == 1 %} done{% endif %}" data-id="{{ task['task_id'] }}">
-                <label class="name"><input type="checkbox"> {{ task['description'] }}</label>
+                <label class="name"><input type="checkbox" {% if task['done'] %}checked{% endif %}> {{ task['description'] }}</label>
                 <span class="duedate">{{ task['due_date'] }}</span>
-                <button class="btn btn-warning important{% if task['important'] %} active{% endif %}" onclick="toggleImportant(this)"><i class="fa fa-exclamation"></i></button>
+                <button class="btn btn-warning important{% if task['important'] %} active{% endif %}" onclick="toggleImportant(this, {{ task['task_id'] }})"><i class="fa fa-exclamation"></i></button>
                 <button class="btn btn-danger delete" onclick="deleteTask({{ task['task_id'] }})"><i class="fa fa-trash"></i></button>
             </li>
             {% endfor %}

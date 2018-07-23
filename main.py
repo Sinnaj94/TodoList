@@ -34,7 +34,7 @@ def task(id):
     elif request.method == 'DELETE':
         data.remove_task(id)
     elif request.method == 'PUT':
-        return "TODO"
+        t = data.update_task(id, request.form)
     return jsonify(task=t[0], method=request.method)
 
 

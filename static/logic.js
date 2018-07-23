@@ -12,23 +12,47 @@ $(document).ready(function(){
 
 function toggleDone(self) {
     var p = $(self).parent().parent();
+    var id = p.data('id');
+    var done = 0;
     if($(self).is(':checked')) {
-        p.addClass("done");
-    } else {
-        p.removeClass("done");
+        done = 1
     }
+    $.ajax({
+        url: '/tasks/' + id,
+        type: 'PUT',
+        data: {
+            'done': done
+        },
+        success: function(result) {
+            if(result.task['done'] === 0) {
+                p.removeClass("done");
+            } else {
+                p.addClass("done");
+            }
+        }
+    })
 }
 
-function toggleImportant(e) {
+function toggleImportant(e, id) {
     e = $(e);
+    var importance = 1;
     if(e.hasClass("active")) {
-        // TODO: Remove in db
-        e.removeClass("active");
-    } else {
-        // TODO: add in db
-        e.addClass("active");
+        importance = 0;
     }
-    $.ajax("/task")
+    $.ajax({
+        url: '/tasks/' + id,
+        type: 'PUT',
+        data: {
+            'important' : importance
+        },
+        success: function(result) {
+            if(result.task['important'] === 0) {
+                e.removeClass("active");
+            } else {
+                e.addClass("active");
+            }
+        }
+    })
 }
 
 function deleteTask(id) {

@@ -43,8 +43,12 @@ def get_category():
     cur.close()
     return rv
 
+def add_category_to_task(category_id, task_id):
+    conn.execute("UPDATE task  SET category_id = ? WHERE task_id = ?", category_id, task_id)
+    conn.commit()
+
 def add_category(name):
-    conn.execute("INSERT INTO category (category_name) VALUES(?)", [name])
+    conn.execute("INSERT INTO category (category_name) VALUES (?)", [name])
     conn.commit()
 
 def remove_category(category_id):

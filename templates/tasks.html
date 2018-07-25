@@ -16,15 +16,21 @@
             <li class="task{% if task['done'] == 1 %} done{% endif %}" data-id="{{ task['task_id'] }}">
                 <label class="name"><input type="checkbox" {% if task['done'] %}checked{% endif %}> {{ task['description'] }}</label>
                 <span class="duedate">{{ task['due_date'] }}</span>
-                <button class="btn btn-warning important{% if task['important'] %} active{% endif %}" onclick="toggleImportant(this, {{ task['task_id'] }})"><i class="fa fa-exclamation"></i></button>
+                <label class="btn btn-warning">
+                    <input type="checkbox" name="important" {% if task['important'] %}checked{% endif %} onclick="toggleImportant(this, {{ task['task_id'] }})"> <i class="fa fa-exclamation" style="vertical-align: middle;color:white"></i>
+                </label>
                 <button class="btn btn-danger delete" onclick="deleteTask({{ task['task_id'] }})"><i class="fa fa-trash"></i></button>
             </li>
             {% endfor %}
         </ul>
         {% endif %}
         <h1>Todo erstellen</h1>
-        <form class="task-form">
-            <label>Beschreibung: <input type="text"></label> <button type="button" class="btn btn-warning important"><i class="fa fa-exclamation"></i><input type="checkbox" name="important" style="display:none"></button>
+        <form id="task-form" target="/tasks" method="post">
+            <label>Beschreibung: <input type="text" name="description" required></label>
+            <label class="btn btn-warning">
+                <input type="checkbox" name="important"> <i class="fa fa-exclamation" style="vertical-align: middle;color:white"></i>
+            </label>
+            Frist: <input type="date" name="due_date" style="border: 1px solid lightgrey" required>
             <button type="submit" class="btn btn-primary btn-submit">Erstellen</button>
         </form>
     </div>

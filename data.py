@@ -65,7 +65,8 @@ def get_tasks():
 
 
 def get_task_by_id(id):
-    cur = conn.execute("SELECT * FROM task WHERE task_id == ?", id)
+    print id
+    cur = conn.execute("SELECT * FROM task WHERE task_id == ?", [id])
     rv = cur.fetchall()
     cur.close()
     return rv

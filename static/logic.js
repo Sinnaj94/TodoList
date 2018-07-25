@@ -3,11 +3,6 @@ $(document).ready(function(){
         var self = this;
         toggleDone(self);
     })
-    /*$('.task').click(function(e) {
-        if(!($(e.target).is('button') || $(e.target.parentElement).is('button'))) {
-            $(this).find('.name input').click();
-        }
-    });*/
 });
 
 function toggleDone(self) {
@@ -35,22 +30,15 @@ function toggleDone(self) {
 
 function toggleImportant(e, id) {
     e = $(e);
-    var importance = 1;
-    if(e.hasClass("active")) {
-        importance = 0;
+    var importance = 0;
+    if(e.is(":checked")) {
+        importance = 1;
     }
     $.ajax({
         url: '/tasks/' + id,
         type: 'PUT',
         data: {
             'important' : importance
-        },
-        success: function(result) {
-            if(result.task['important'] === 0) {
-                e.removeClass("active");
-            } else {
-                e.addClass("active");
-            }
         }
     })
 }

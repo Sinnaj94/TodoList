@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request, g, jsonify, abort
 from flask import render_template
 import data
+import datetime
 # TODO: Implement getter and setter, connect with data.py
 app = Flask(__name__)
 # TODO: Echte variablen
@@ -27,6 +28,13 @@ def categories():
 # TODO: David: GET und POST implementieren (mit Nutzung von data.py)
 @app.route('/tasks', methods=['GET', 'POST'])
 def tasks():
+    if request.method == 'POST':
+        important = 0
+        if 'important' in request.form:
+            important = 1
+        date = datetime.datetime.strptime(request.form['due_date'], "%Y-%m-%d")
+        data.add_task(request.form['description'], date.strftime("%d.%m.%Y"), important)
+
     t = data.get_tasks()
     return render_template('tasks.html', tasks=t)
 

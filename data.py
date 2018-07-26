@@ -28,8 +28,8 @@ def init():
                  "category_name TEXT NOT NULL)")
 
 
-def add_task(description, due_date, important=0):
-    conn.execute("INSERT INTO task (description, due_date, important) VALUES (?, ?, ?)", [description, due_date, important])
+def add_task(description, due_date, important=0, category_id=None):
+    conn.execute("INSERT INTO task (description, due_date, important, category_id) VALUES (?, ?, ?, ?)", [description, due_date, important, category_id])
     conn.commit()
 
 
@@ -37,23 +37,35 @@ def remove_task(task_id):
     cur = conn.execute("DELETE FROM task WHERE task_id=?", [task_id])
     conn.commit()
 
+
 def get_category():
     cur = conn.execute("SELECT * FROM category")
     rv = cur.fetchall()
     cur.close()
     return rv
 
+
+def get_category_by_id(id):
+    cur = conn.execute("SELECT * FROM category WHERE category_id == ?", [id])
+    rv = cur.fetchall()
+    cur.close()
+    return rv
+
+
 def add_category_to_task(category_id, task_id):
     conn.execute("UPDATE task  SET category_id = ? WHERE task_id = ?", category_id, task_id)
     conn.commit()
+
 
 def add_category(name):
     conn.execute("INSERT INTO category (category_name) VALUES (?)", [name])
     conn.commit()
 
+
 def remove_category(category_id):
     # TODO: Also remove ID in Task
     conn.execute("DELETE FROM category WHERE category_id=?", [category_id])
+    conn.execute("UPDATE task SET category_id = null WHERE category_id=?", [category_id])
     conn.commit()
 
 
@@ -65,7 +77,6 @@ def get_tasks():
 
 
 def get_task_by_id(id):
-    print id
     cur = conn.execute("SELECT * FROM task WHERE task_id == ?", [id])
     rv = cur.fetchall()
     cur.close()

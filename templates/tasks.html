@@ -6,6 +6,10 @@
     <script src="{{ url_for('static', filename='logic.js') }}"></script>
 </head>
 <body>
+    <header>
+        <a class="btn btn-primary" href="tasks">Tasks</a>
+        <a class="btn btn-secondary" href="categories">Categories</a>
+    </header>
     <div class="container">
         <h1>Todo-Liste</h1>
         {% if tasks|length == 0 %}
@@ -19,6 +23,13 @@
                 <label class="btn btn-warning">
                     <input type="checkbox" name="important" {% if task['important'] %}checked{% endif %} onclick="toggleImportant(this, {{ task['task_id'] }})"> <i class="fa fa-exclamation" style="vertical-align: middle;color:white"></i>
                 </label>
+                {% if task['category_id'] is not none %}
+                    {% for category in categories %}
+                        {% if category['category_id'] == task['category_id'] %}
+                            {{ category['category_name'] }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 <button class="btn btn-danger delete" onclick="deleteTask({{ task['task_id'] }})"><i class="fa fa-trash"></i></button>
             </li>
             {% endfor %}
@@ -31,6 +42,13 @@
                 <input type="checkbox" name="important"> <i class="fa fa-exclamation" style="vertical-align: middle;color:white"></i>
             </label>
             Frist: <input type="date" name="due_date" style="border: 1px solid lightgrey" required>
+            Kategorie:
+            <select name="category">
+                <option selected value="-1">Nicht zugewiesen</option>
+                {% for category in categories %}
+                <option value="{{ category['category_id'] }}">{{ category['category_name'] }}</option>
+                {% endfor %}
+            </select>
             <button type="submit" class="btn btn-primary btn-submit">Erstellen</button>
         </form>
     </div>

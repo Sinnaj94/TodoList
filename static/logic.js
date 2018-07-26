@@ -56,3 +56,18 @@ function deleteTask(id) {
         }
     );
 }
+
+function deleteCategory(id) {
+    $.ajax(
+        {
+            url : '/categories/' + id,
+            type: 'DELETE',
+            success: function(result) {
+                console.log(result);
+                $('li[data-id="'+ result.category['category_id'] + '"').css('transition', 'none').fadeOut("normal", function() {
+                    $(this).remove();
+                });
+            }
+        }
+    );
+}

@@ -17,12 +17,10 @@ def hello_world():
 @app.route('/categories', methods=['GET', 'POST'])
 def categories():
     if request.method == 'POST':
-        category_name = request.form['cat_input']
-        t = data.add_category(category_name)
-        return jsonify(categories=t[0], method=request.method)
-    else:
-        t = data.get_category()
-        return render_template('categories.html', categories=t)
+        category_name = request.form['category_name']
+        data.add_category(category_name)
+    t = data.get_category()
+    return render_template('categories.html', categories=t)
 
 
 # TODO: David: GET und POST implementieren (mit Nutzung von data.py)
@@ -32,11 +30,16 @@ def tasks():
         important = 0
         if 'important' in request.form:
             important = 1
+        category = None
+        if request.form['category'] != -1:
+            category = request.form['category']
+
         date = datetime.datetime.strptime(request.form['due_date'], "%Y-%m-%d")
-        data.add_task(request.form['description'], date.strftime("%d.%m.%Y"), important)
+        data.add_task(request.form['description'], date.strftime("%d.%m.%Y"), important, category)
 
     t = data.get_tasks()
-    return render_template('tasks.html', tasks=t)
+    c = data.get_category()
+    return render_template('tasks.html', tasks=t, categories=c)
 
 
 # TODO: Jannis: GET, DELETE und PUT implementieren
@@ -57,7 +60,10 @@ def task(id):
 # TODO: Jannis: GET, DELETE und PUT implementieren
 @app.route('/categories/<id>', methods=['GET', 'DELETE', 'PUT'])
 def category(id):
-    return 'TODO'
+    c = data.get_category()
+    if request.method == 'DELETE':
+        data.remove_category(id)
+    return jsonify(category=c[0], method=request.method)
 
 
 @app.errorhandler(404)

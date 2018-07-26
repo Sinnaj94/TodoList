@@ -6,12 +6,27 @@
     <script src="{{ url_for('static', filename='logic.js') }}"></script>
 </head>
 <body>
+<header>
+    <a class="btn btn-secondary" href="tasks">Tasks</a>
+    <a class="btn btn-primary" href="categories">Categories</a>
+</header>
 <div class="container">
-    <h1>Kategories </h1>
-
-    <h1>Kategories erstellen</h1>
-    <form class="task-form">
-        <label>Kategorie: <input type="text" name="cat_input"></label> <button type="button" class="btn btn-warning important"><i class="fa fa-exclamation"></i><input type="checkbox" name="important" style="display:none"></button>
+    <h1>Kategorien</h1>
+    {% if categories|length == 0 %}
+    <div class="no-tasks">Es gibt im Moment keine Kategorien!</div>
+    {% else %}
+    <ul class="tasks">
+        {% for category in categories %}
+        <li class="task" data-id="{{ category['category_id'] }}">
+            {{ category['category_name'] }}
+            <button class="btn btn-danger delete" onclick="deleteCategory({{ category['category_id'] }})"><i class="fa fa-trash"></i></button>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h1>Kategorien erstellen</h1>
+    <form target="/categories" method="post">
+        <label>Name: <input type="text" name="category_name"></label>
         <button type="submit" class="btn btn-primary btn-submit">Erstellen</button>
     </form>
 </div>
